@@ -40,12 +40,13 @@
 
     function message(from, msg) {
       $('.js-lines').append($('<p>').append($('<b>').text(from), msg));
+      $('.js-lines').get(0).scrollTop = 10000000;
     }
 
     // dom manipulation
     $(function () {
       $('.js-set-nickname').submit(function (ev) {
-        socket.emit('nickname', $('.js-nick').val(), function (set) {
+        socket.emit('nickname', $('.js-nickname-input').val(), function (set) {
           if (!set) {
             clear();
             return $('.js-chat').addClass('nickname-set');
@@ -59,7 +60,6 @@
         message('me', $('.js-message').val());
         socket.emit('user message', $('.js-message').val());
         clear();
-        $('.js-lines').get(0).scrollTop = 10000000;
         return false;
       });
 
@@ -75,8 +75,8 @@
     <div class="nickname js-nickname">
       <form class="js-set-nickname">
         <p>Please type in your nickname and press enter.</p>
-        <input class="js-nick" />
-        <p class="nickname-err js-nickname-err">Nickname already in use</p>
+        <input class="nickname-input js-nickname-input" />
+        <p class="nickname-err js-nickname-err">Nickname already in use, please choose another.</p>
       </form>
     </div>
     <div class="connecting">

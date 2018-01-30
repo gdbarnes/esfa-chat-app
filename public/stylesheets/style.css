@@ -35,11 +35,12 @@ button {
 }
 
 body {
-  min-height: calc(100vh - 100px);
-  margin: 50px;
+  min-height: calc(100vh - 40px);
+  margin: 20px;
 }
 
-form {
+form,
+p {
   margin: 0;
 }
 
@@ -71,19 +72,19 @@ form {
   color: #666;
 }
 
-.nickname input {
+.nickname-input {
   border: 1px solid #ccc;
   padding: var(--baseUnit);
+  margin: var(--baseUnit) 0;
 }
 
-.nickname input:focus {
+.nickname-input:focus {
   border-color: var(--darkGrey);
   outline: 0;
 }
 
 .nickname .nickname-err {
   color: #8b0000;
-  font-size: 12px;
   visibility: hidden;
 }
 
@@ -96,7 +97,6 @@ form {
 }
 
 .messages {
-  height: 380px;
   overflow: auto;
   background: var(--lightGrey);
 }
@@ -106,8 +106,7 @@ form {
 }
 
 .messages p {
-  margin: 0;
-  padding: 1rem;
+  padding: var(--baseUnit);
 }
 
 .messages p b {
@@ -140,14 +139,13 @@ form {
 }
 
 .messages .lines {
-  overflow: auto;
+  height: 400px;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 .messages .lines::-webkit-scrollbar {
   width: 6px;
-  height: 6px;
 }
 
 .messages .lines::-webkit-scrollbar-button:start:decrement,
@@ -188,7 +186,6 @@ form {
 .send-message input {
   flex: 1 1 auto;
   border: none;
-  padding: 1rem;
   vertical-align: middle;
   width: 100%;
 }
@@ -198,27 +195,23 @@ form {
 }
 
 .send-message button {
-  margin: 0;
-  cursor: pointer;
-  user-select: none;
   display: inline-block;
+  margin: 0;
+  text-align: center;
+  padding: 5px var(--baseUnit);
+  user-select: none;
   text-decoration: none;
-  background: var(--lightBlue);
   border: 0 none;
   border-radius: 16px;
+  background: var(--lightBlue);
   color: var(--white);
   line-height: 1;
-  padding: 5px var(--baseUnit);
-  text-align: center;
+  cursor: pointer;
 }
 
 .send-message button:active,
-.send-message button.active {
-  background: #2e70c4;
-}
-
+.send-message button.active,
 .send-message button:focus,
 .send-message button.focus {
-  outline: none;
-  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.4), 0 0 4px 0 #377ad0;
+  background: var(--black);
 }
