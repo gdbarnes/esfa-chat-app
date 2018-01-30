@@ -1,9 +1,22 @@
-# esfa-chat-app
+# Chat app built for demo at ESFA (esfa-chat-app)
 
-Using socket.io version 2 and express version 4
+Using:
 
-Runs locally and on heroku
+* **socket.io** (version 2)
+* **express** (version 4)
 
-You can see it in action at: https://esfa-chat-app.herokuapp.com/
+Runs locally and can be hosted (on heroku for example)
 
-Open a private browsing session to join as a second user.
+## Demo
+
+Working example: https://esfa-chat-app.herokuapp.com/
+
+This version is built directly from this repository. You can open a private browsing session to join as a second user.
+
+## Local setup
+
+1. Clone repository
+2. `npm install`
+3. `npm start`
+4. Visit http://localhost:3000 and enter a nickname
+5. 🎉
