@@ -10,23 +10,23 @@
     var socket = io.connect();
 
     socket.on('connect', function () {
-      $('#chat').addClass('connected');
+      $('.js-chat').addClass('connected');
     });
 
     socket.on('announcement', function (msg) {
-      $('#lines').append($('<p>').append($('<em>').text(msg)));
+      $('.js-lines').append($('<p>').append($('<em>').text(msg)));
     });
 
     socket.on('nicknames', function (nicknames) {
-      $('#nicknames').empty().append($('<span>Online: </span>'));
+      $('.js-nicknames').empty().append($('<span>Online: </span>'));
       for (var i in nicknames) {
-        $('#nicknames').append($('<b>').text(nicknames[i]));
+        $('.js-nicknames').append($('<span>').text(nicknames[i]));
       }
     });
 
     socket.on('user message', message);
     socket.on('reconnect', function () {
-      $('#lines').remove();
+      $('.js-lines').remove();
       message('System', 'Reconnected to the server');
     });
 
@@ -39,55 +39,55 @@
     });
 
     function message(from, msg) {
-      $('#lines').append($('<p>').append($('<b>').text(from), msg));
+      $('.js-lines').append($('<p>').append($('<b>').text(from), msg));
     }
 
     // dom manipulation
     $(function () {
-      $('#set-nickname').submit(function (ev) {
-        socket.emit('nickname', $('#nick').val(), function (set) {
+      $('.js-set-nickname').submit(function (ev) {
+        socket.emit('nickname', $('.js-nick').val(), function (set) {
           if (!set) {
             clear();
-            return $('#chat').addClass('nickname-set');
+            return $('.js-chat').addClass('nickname-set');
           }
-          $('#nickname-err').css('visibility', 'visible');
+          $('.js-nickname-err').css('visibility', 'visible');
         });
         return false;
       });
 
-      $('#send-message').submit(function () {
-        message('me', $('#message').val());
-        socket.emit('user message', $('#message').val());
+      $('.js-send-message').submit(function () {
+        message('me', $('.js-message').val());
+        socket.emit('user message', $('.js-message').val());
         clear();
-        $('#lines').get(0).scrollTop = 10000000;
+        $('.js-lines').get(0).scrollTop = 10000000;
         return false;
       });
 
       function clear() {
-        $('#message').val('').focus();
+        $('.js-message').val('').focus();
       };
     });
   </script>
 </head>
 
 <body>
-  <div id="chat">
-    <div id="nickname">
-      <form class="wrap" id="set-nickname">
+  <div class="chat js-chat">
+    <div class="nickname js-nickname">
+      <form class="js-set-nickname">
         <p>Please type in your nickname and press enter.</p>
-        <input id="nick" />
-        <p id="nickname-err">Nickname already in use</p>
+        <input class="js-nick" />
+        <p class="nickname-err js-nickname-err">Nickname already in use</p>
       </form>
     </div>
-    <div id="connecting">
-      <div class="wrap">Connecting to socket.io server</div>
+    <div class="connecting">
+      <div>Connecting to socket.io server</div>
     </div>
-    <div id="messages">
-      <div id="nicknames"></div>
-      <div id="lines"></div>
+    <div class="messages">
+      <div class="nicknames js-nicknames"></div>
+      <div class="lines js-lines"></div>
     </div>
-    <form id="send-message">
-      <input id="message" />
+    <form class="send-message js-send-message">
+      <input placeholder="Enter message here..." class="message js-message" />
       <button>Send</button>
     </form>
   </div>
