@@ -1,10 +1,9 @@
 # esfa-chat-app
 
-Config updated to run on heroku, and transport set to xhr-polling with a 20s timeout
+Using socket.io version 2 and express version 4
 
-You can see it in action at: http://socket-io-chat.herokuapp.com/
+Runs locally and on heroku
 
-<!-- ## Deploying
+You can see it in action at: https://esfa-chat-app.herokuapp.com/
 
-    heroku create -s cedar
-    git push heroku master -->
+Open a private browsing session to join as a second user.

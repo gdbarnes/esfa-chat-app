@@ -1,18 +1,17 @@
 {
   "name": "esfa-chat-app",
   "description": "example chat app using socket.io",
+  "author": "Greg Barnes",
+  "license": "ISC",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/gdbarnes/esfa-chat-app.git"
   },
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
-  "author": "Greg Barnes",
-  "license": "ISC",
-  "version": "0.0.1",
-  "main": "app.js",
   "dependencies": {
     "express": "4.16.2",
     "socket.io": "2.0.4"
