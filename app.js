@@ -1,23 +1,23 @@
 /**
- * Module dependencies.
+ * Module dependencies
  */
 
-var express = require('express')
-  , stylus = require('stylus')
-  , nib = require('nib')
-  , sio = require('socket.io');
+var express = require('express'),
+  stylus = require('stylus'),
+  nib = require('nib'),
+  sio = require('socket.io');
 
 /**
- * App.
+ * App
  */
 
 var app = express.createServer();
 
 /**
- * App configuration.
+ * App configuration
  */
 
-app.configure(function () {
+app.configure(function() {
   app.use(stylus.middleware({ src: __dirname + '/public', compile: compile }));
   app.use(express.static(__dirname + '/public'));
   app.set('views', __dirname);
@@ -27,23 +27,23 @@ app.configure(function () {
     return stylus(str)
       .set('filename', path)
       .use(nib());
-  };
+  }
 });
 
 /**
- * App routes.
+ * App routes
  */
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
   res.render('index', { layout: false });
 });
 
 /**
- * App listen.
+ * App listen
  */
 
 var port = process.env.PORT || 3000;
-app.listen(port, function () {
+app.listen(port, function() {
   var addr = app.address();
   console.log('   app listening on http://' + addr.address + ':' + addr.port);
 });
@@ -52,21 +52,21 @@ app.listen(port, function () {
  * Socket.IO server (single process only)
  */
 
-var io = sio.listen(app)
-  , nicknames = {};
+var io = sio.listen(app),
+  nicknames = {};
 
 // Set our transports
-io.configure(function () {
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 20);
+io.configure(function() {
+  io.set('transports', ['xhr-polling']);
+  io.set('polling duration', 20);
 });
 
-io.sockets.on('connection', function (socket) {
-  socket.on('user message', function (msg) {
+io.sockets.on('connection', function(socket) {
+  socket.on('user message', function(msg) {
     socket.broadcast.emit('user message', socket.nickname, msg);
   });
 
-  socket.on('nickname', function (nick, fn) {
+  socket.on('nickname', function(nick, fn) {
     if (nicknames[nick]) {
       fn(true);
     } else {
@@ -77,7 +77,7 @@ io.sockets.on('connection', function (socket) {
     }
   });
 
-  socket.on('disconnect', function () {
+  socket.on('disconnect', function() {
     if (!socket.nickname) return;
 
     delete nicknames[socket.nickname];
