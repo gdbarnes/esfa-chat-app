@@ -2,66 +2,43 @@
  * Module dependencies
  */
 
-var express = require('express'),
-  stylus = require('stylus'),
-  nib = require('nib'),
-  sio = require('socket.io');
-
-/**
- * App
- */
-
-var app = express.createServer();
-
-/**
- * App configuration
- */
-
-app.configure(function() {
-  app.use(stylus.middleware({ src: __dirname + '/public', compile: compile }));
-  app.use(express.static(__dirname + '/public'));
-  app.set('views', __dirname);
-  app.set('view engine', 'jade');
-
-  function compile(str, path) {
-    return stylus(str)
-      .set('filename', path)
-      .use(nib());
-  }
-});
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 /**
  * App routes
  */
 
 app.get('/', function(req, res) {
-  res.render('index', { layout: false });
+  res.sendFile(__dirname + '/index.html');
 });
+
+app.use(express.static(__dirname + '/public'));
+app.set('views', __dirname);
 
 /**
  * App listen
  */
 
-var port = process.env.PORT || 3000;
-app.listen(port, function() {
-  var addr = app.address();
-  console.log('   app listening on http://' + addr.address + ':' + addr.port);
+const port = process.env.PORT || 3000;
+server.listen(port, function() {
+  // console.log(this.address());
+  const addr = this.address();
+  console.log('ESFA chat app listening on port ' + addr.port);
 });
 
 /**
- * Socket.IO server (single process only)
+ * Socket.IO server
  */
 
-var io = sio.listen(app),
-  nicknames = {};
+const nicknames = {};
 
-// Set our transports
-io.configure(function() {
-  io.set('transports', ['xhr-polling']);
-  io.set('polling duration', 20);
-});
+// io.set('transports', ['xhr-polling']);
+io.set('polling duration', 20);
 
-io.sockets.on('connection', function(socket) {
+io.on('connection', function(socket) {
   socket.on('user message', function(msg) {
     socket.broadcast.emit('user message', socket.nickname, msg);
   });
@@ -73,7 +50,7 @@ io.sockets.on('connection', function(socket) {
       fn(false);
       nicknames[nick] = socket.nickname = nick;
       socket.broadcast.emit('announcement', nick + ' connected');
-      io.sockets.emit('nicknames', nicknames);
+      io.emit('nicknames', nicknames);
     }
   });
 
