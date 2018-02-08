@@ -2,6 +2,9 @@ const socket = io.connect();
 
 socket.on('connect', function() {
   $('.js-chat').addClass('connected');
+  $('.js-lines').append(localStorage.getItem('history'));
+  const chatBoxEl = $('.js-lines').get(0);
+  chatBoxEl.scrollTop = chatBoxEl.scrollHeight;
 });
 
 socket.on('announcement', function(msg) {
@@ -19,7 +22,7 @@ socket.on('nicknames', function(nicknames) {
 
 socket.on('user message', message);
 socket.on('reconnect', function() {
-  $('.js-lines').remove();
+  // $('.js-lines').remove();
   message('System', 'Reconnected to the server');
 });
 
@@ -35,7 +38,26 @@ function message(from, msg) {
   $('.js-lines').append($('<p>').append($('<b>').text(from), msg));
   const chatBoxEl = $('.js-lines').get(0);
   chatBoxEl.scrollTop = chatBoxEl.scrollHeight;
+  localStorage.setItem('history', chatBoxEl.innerHTML);
 }
+
+// function disconnectUserFromChat() {
+//   return new Promise(function(resolve, reject) {
+//     try {
+//       console.log('Disconnected (promise resolved)');
+//       // localStorage.setItem('history', 'Value');
+//       resolve();
+//     } catch (error) {
+//       reject(error);
+//     }
+//   });
+// }
+
+// disconnectUserFromChat().then(function() {
+//   socket.on('disconnect', function() {
+//     console.log('Disconnected');
+//   });
+// });
 
 // dom manipulation
 $(function() {

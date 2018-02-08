@@ -15,6 +15,10 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/other-page', function(req, res) {
+  res.sendFile(__dirname + '/other-page.html');
+});
+
 app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname);
 
